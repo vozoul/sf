@@ -1,0 +1,5 @@
+{{ form_start(form) }}
+    {{ form_row(form.content) }}
+    {{ form_row(form.picture) }}
+    <button class="btn btn-primary float-right">{{ button | default('Save') }}</button>
+{{ form_end(form) }}

@@ -14,10 +14,6 @@ class QuackType extends AbstractType
         $builder
             ->add('content')
             ->add('picture')
-            ->add('create_at')
-            ->add('tags')
-            ->add('author')
-            ->add('comments')
         ;
     }
 
@@ -25,6 +21,7 @@ class QuackType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Quack::class,
+            'translation_domain' => 'forms'
         ]);
     }
 }
