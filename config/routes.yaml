@@ -1,0 +1,11 @@
+
+## nom de la route
+#home:
+#  # chemin de ma route
+#  path: /
+#  # nom de la class à appeler et sa méthode(action)
+#  controller: App\Controller\HomeController::index
+
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index

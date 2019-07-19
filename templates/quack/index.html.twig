@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% block title 'Les coincoins du coin' %}
+{% block body %}
+    <div class="container mt-3">
+        <h1>Quacks</h1>
+        {% for quack in quacks %}
+                <div class="card mb-2">
+                    <div class="card-header">
+                        <a href="{{ path('quack.edit', {id: quack.id}) }}" class="btn btn-warning mx-1 float-right"><i class="far fa-edit"></i> Edit</a>
+                        <a href="{{ path('quack.show', {id: quack.id}) }}" class="btn btn-info float-right"><i class="far fa-eye"></i> Show</a>
+                    </div>
+                    <div class="card-body">
+                        <img class="card-img-top" src="{{ quack.picture }}" alt="">
+                        <p class="card-text">{{ quack.content }}</p>
+                    </div>
+                    <div class="card-footer blockquote-footer">
+                        <span>author</span>
+                        <span class="float-right">Since : {{ quack.createAt | date("d-m-Y") }} at {{ quack.createAt | date("H:i") }}</span>
+                    </div>
+                </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+

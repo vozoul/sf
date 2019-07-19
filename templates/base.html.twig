@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/all.css">
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="{{ path('home') }}">DuckBook</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item {% if in_cours is defined and in_cours == 'quacks' %}active{% endif %}">
+                        <a class="nav-link" href="{{ path('quack.index') }}"><i class="fas fa-comment-alt"></i> Quacks</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav">
+
+{#                    if not connected#}
+                    {% if app.user %}
+                        <li class="nav-item">
+                            <a class="nav-link"><i class="fas fa-user-circle"></i> Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"><i class="fas fa-sign-out-alt"></i> Sign-Out</a>
+                        </li>
+{#                    if connected#}
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link"><i class="fas fa-user-plus"></i> Sign-Up</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"><i class="fas fa-sign-in-alt"></i> Sign-In</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+        <script src="/js/all.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    </body>
+</html>
