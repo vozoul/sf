@@ -9,8 +9,9 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="{{ path('home') }}">DuckBook</a>
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-warning {% if app.request.attributes.get('_route') is same as('home') %}{% else %}shadow{% endif %}">
+            <a class="navbar-brand" href="{{ path('home') }}"><img src="/images/logos/logo.png" alt="logo" width="40" height="30"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>

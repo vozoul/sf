@@ -9,7 +9,6 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 /**
  * @method Quack|null find($id, $lockMode = null, $lockVersion = null)
  * @method Quack|null findOneBy(array $criteria, array $orderBy = null)
- * @method Quack[]    findAll()
  * @method Quack[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class QuackRepository extends ServiceEntityRepository
@@ -19,12 +18,33 @@ class QuackRepository extends ServiceEntityRepository
         parent::__construct($registry, Quack::class);
     }
 
+    public function findAllDesc(){
+        return $this->findBy(array(), array('id' => 'DESC'));
+    }
 
+
+    /**
+     * @param $value
+     * @return Quack[]
+     */
     public function findByAuthor($value){
         return $this->createQueryBuilder('a')
             ->andWhere('a.author = :val')
             ->setParameter('val', $value)
             ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
+
+    /**
+     * @return Quack[]
+     */
+    public function findLatest(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.id', 'DESC')
+            ->setMaxResults(4)
             ->getQuery()
             ->getResult();
     }

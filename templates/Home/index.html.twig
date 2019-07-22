@@ -1,7 +1,30 @@
 {% extends 'base.html.twig' %}
 
+{% block title 'Welcome to DuckBook !' %}
+
 {% block body %}
-    <div class="container-fluid bg-dark text-light text-center py-5">
-        <h1 class="py-3">DuckBook</h1>
+    <div class="container-fluid bg-warning text-dark text-center py-5">
+        <div class="inline-block justify-content-center align-items-center">
+            <p><img src="/images/logos/logo.png" alt=""></p>
+            <h1>DuckBook</h1>
+        </div>
+    </div>
+    <div class="bg-secondary text-light py-3 shadow">
+        <div class="container">
+            <h2>Last Quacks</h2>
+            <div class="flex row align-items-center">
+                {% for quack in quacks %}
+                    <div class="col-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="{{ path('quack.show', {id: quack.id}) }}">{{ quack.title }}</a>
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 {% endblock %}

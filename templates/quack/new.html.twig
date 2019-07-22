@@ -1,9 +1,11 @@
 {% extends 'base.html.twig' %}
 
+{% block title 'Ça Couïne Encore !!' %}
+
 {% block body %}
     <div class="container mt-3">
         <a href="{{ path('quack.index') }}" class="btn btn-primary float-right"><i class="fas fa-arrow-circle-left"></i> Back</a>
         <h1>Add CoinCoin</h1>
-        {{ include('quack/_form.html.twig', {form: form, button: 'ajouter'}) }}
+        {{ include('quack/_form.html.twig') }}
     </div>
 {% endblock %}

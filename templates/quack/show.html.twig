@@ -1,11 +1,14 @@
 {% extends 'base.html.twig' %}
 
+{% block title quack.title %}
+
 {% block body %}
 <div class="container mt-3">
     <div class="card">
-        <div class="card-header">
-            <a href="{{ app.request.headers.get('referer') }}" class="btn btn-primary float-left"><i class="fas fa-arrow-circle-left"></i> Back</a>
-            <a href="{{ path('quack.edit', {id: quack.id}) }}" class="btn btn-warning mx-1 float-right"><i class="far fa-edit"></i></a>
+        <div class="card-header bg-success text-light d-flex justify-content-between aling-items-center">
+            <p><a href="{{ app.request.headers.get('referer') }}" class="btn btn-primary"><i class="fas fa-arrow-circle-left"></i> Back</a></p>
+            <h4 class="card-title">{{ quack.title }}</h4>
+            <p><a href="{{ path('quack.edit', {id: quack.id}) }}" class="btn btn-warning"><i class="far fa-edit"></i></a></p>
         </div>
         <div class="card-body">
             <img class="card-img-top" src="{{ quack.picture }}" alt="image">

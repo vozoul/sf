@@ -39,11 +39,18 @@ class QuackController extends AbstractController
      */
     public function index():Response
     {
-        $quacks = $this->repository->findAll();
+
+//        $quack = new Quack();
+//        $quack->setTitle('DuckApp show you in the past and in the futur')
+//            ->setContent('Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi cumque ipsam placeat! Adipisci dolore doloremque eveniet iusto libero nesciunt sequi! Animi dolore exercitationem ipsa magni molestiae placeat reprehenderit ullam voluptatem.');
+//        $this->manager->persist($quack);
+//        $this->manager->flush();
+        $quacks = $this->repository->findAllDesc();
         return $this->render('quack/index.html.twig', [
             'in_cours' => 'quacks',
             'quacks' => $quacks
         ]);
+
     }
 
     /**
@@ -52,7 +59,8 @@ class QuackController extends AbstractController
      */
     public function show(Quack $quack):Response
     {
-        return $this->render('quack/new.html.twig', [
+        return $this->render('quack/show.html.twig', [
+            'in_cours' => 'quacks',
             'quack' => $quack
         ]);
     }
@@ -72,13 +80,9 @@ class QuackController extends AbstractController
         }
 
         return $this->render('quack/edit.html.twig', [
+            'in_cours' => 'quacks',
             'quack' => $quack,
             'form' => $form->createView()
         ]);
     }
-
-    public function new(){
-
-    }
-
 }

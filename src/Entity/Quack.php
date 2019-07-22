@@ -46,6 +46,11 @@ class Quack
      */
     private $comments = [];
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $title;
+
     public function __construct()
     {
         $this->create_at = new \DateTime();
@@ -123,6 +128,18 @@ class Quack
     public function setComments(?array $comments): self
     {
         $this->comments = $comments;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
 
         return $this;
     }

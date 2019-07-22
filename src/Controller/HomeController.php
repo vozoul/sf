@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 
+use App\Repository\QuackRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,8 +19,11 @@ class HomeController extends AbstractController
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function index():Response
+    public function index(QuackRepository $repository):Response
     {
-        return $this->render('home/index.html.twig');
+        $quacks = $repository->findLatest();
+        return $this->render('home/index.html.twig', [
+            'quacks' => $quacks
+        ]);
     }
 }

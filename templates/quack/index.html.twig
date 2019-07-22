@@ -9,9 +9,10 @@
         <h1>Quacks</h1>
         {% for quack in quacks %}
                 <div class="card mb-2">
-                    <div class="card-header">
+                    <div class="card-header bg-success text-light">
                         <a href="{{ path('quack.edit', {id: quack.id}) }}" class="btn btn-warning mx-1 float-right"><i class="far fa-edit"></i></a>
                         <a href="{{ path('quack.show', {id: quack.id}) }}" class="btn btn-info float-right"><i class="far fa-eye"></i></a>
+                        <h4>{{ quack.title }}</h4>
                     </div>
                     <div class="card-body">
                         <img class="card-img-top" src="{{ quack.picture }}" alt="picture">
