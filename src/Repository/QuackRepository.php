@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Quack;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -18,8 +19,15 @@ class QuackRepository extends ServiceEntityRepository
         parent::__construct($registry, Quack::class);
     }
 
-    public function findAllDesc(){
-        return $this->findBy(array(), array('id' => 'DESC'));
+
+    /**
+     * @return Query
+     */
+    public function findAllDesc():Query
+    {
+        return $this->createQueryBuilder('q')
+            ->orderBy('q.id','DESC')
+            ->getQuery();
     }
 
 
@@ -28,8 +36,8 @@ class QuackRepository extends ServiceEntityRepository
      * @return Quack[]
      */
     public function findByAuthor($value){
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.author = :val')
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.author = :val')
             ->setParameter('val', $value)
             ->setMaxResults(10)
             ->getQuery()
@@ -42,8 +50,8 @@ class QuackRepository extends ServiceEntityRepository
      */
     public function findLatest(): array
     {
-        return $this->createQueryBuilder('a')
-            ->orderBy('a.id', 'DESC')
+        return $this->createQueryBuilder('q')
+            ->orderBy('q.id', 'DESC')
             ->setMaxResults(4)
             ->getQuery()
             ->getResult();

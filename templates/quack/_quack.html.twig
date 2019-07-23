@@ -1,0 +1,20 @@
+<div class="card mb-2">
+    <div class="card-header bg-success text-light">
+        <form method="POST" action="{{ path('quack.delete', {id: quack.id}) }}" class="float-right" onsubmit="return confirm('Voulez vous vraiment Supprimer ce quack')">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ quack.id) }}">
+            <button class="btn btn-danger"><i class="fas fa-times-circle"></i></button>
+        </form>
+        <a href="{{ path('quack.edit', {id: quack.id}) }}" class="btn btn-warning mx-1 float-right"><i class="far fa-edit"></i></a>
+        <a href="{{ path('quack.show', {id: quack.id}) }}" class="btn btn-info float-right"><i class="far fa-eye"></i></a>
+        <h4>{{ quack.title }}</h4>
+    </div>
+    <div class="card-body">
+        <img class="card-img-top" src="{{ quack.picture }}" alt="picture">
+        <p class="card-text">{{ quack.content | nl2br }}</p>
+    </div>
+    <div class="card-footer blockquote-footer">
+        <span class="text-capitalize">{{ quack.author }}</span>
+        <span class="float-right">Since : {{ quack.createAt | date("d-m-Y") }} at {{ quack.createAt | date("H:i") }}</span>
+    </div>
+</div>

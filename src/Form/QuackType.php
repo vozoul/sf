@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Quack;
+use http\Client\Curl\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,6 +21,7 @@ class QuackType extends AbstractType
                 'required' => false,
                 'label' => 'Picture'
             ])
+            ->add('author', HiddenType::class)
         ;
     }
 

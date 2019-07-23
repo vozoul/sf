@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Tests\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -35,11 +37,6 @@ class Quack
     private $create_at;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
-     */
-    private $tags = [];
-
-    /**
      * @ORM\Column(type="string", length=90, nullable=true)
      */
     private $author;
@@ -54,9 +51,15 @@ class Quack
      */
     private $title;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tags", mappedBy="quacks")
+     */
+    private $my_tags;
+
     public function __construct()
     {
         $this->create_at = new \DateTime();
+        $this->my_tags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -99,18 +102,6 @@ class Quack
         return $this;
     }
 
-    public function getTags(): ?array
-    {
-        return $this->tags;
-    }
-
-    public function setTags(?array $tags): self
-    {
-        $this->tags = $tags;
-
-        return $this;
-    }
-
     public function getAuthor(): ?string
     {
         return $this->author;
@@ -143,6 +134,34 @@ class Quack
     public function setTitle(?string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tags[]
+     */
+    public function getMyTags(): Collection
+    {
+        return $this->my_tags;
+    }
+
+    public function addMyTag(Tags $myTag): self
+    {
+        if (!$this->my_tags->contains($myTag)) {
+            $this->my_tags[] = $myTag;
+            $myTag->addQuack($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMyTag(Tags $myTag): self
+    {
+        if ($this->my_tags->contains($myTag)) {
+            $this->my_tags->removeElement($myTag);
+            $myTag->removeQuack($this);
+        }
 
         return $this;
     }

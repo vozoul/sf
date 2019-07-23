@@ -8,6 +8,7 @@ use App\Entity\Quack;
 use App\Form\QuackType;
 use App\Repository\QuackRepository;
 use Doctrine\Common\Persistence\ObjectManager;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,16 +37,21 @@ class QuackController extends AbstractController
 
     /**
      * @Route("/quacks/", name="quack.index")
+     * @param PaginationInterface $paginator
      * @return Response
      */
-    public function index():Response
+    public function index(PaginatorInterface $paginator, Request $request):Response
     {
-        $quacks = $this->repository->findAllDesc();
+        $quacks = $paginator->paginate(
+            $this->repository->findAllDesc(),
+            $request->query->getInt('page', 1),
+            10
+        );
+
         return $this->render('quack/index.html.twig', [
             'in_cours' => 'quacks',
             'quacks' => $quacks
         ]);
-
     }
 
     /**
