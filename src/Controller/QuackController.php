@@ -5,6 +5,7 @@ namespace App\Controller;
 
 
 use App\Entity\Quack;
+use App\Entity\Tags;
 use App\Form\QuackType;
 use App\Repository\QuackRepository;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -45,7 +46,7 @@ class QuackController extends AbstractController
         $quacks = $paginator->paginate(
             $this->repository->findAllDesc(),
             $request->query->getInt('page', 1),
-            10
+            4
         );
 
         return $this->render('quack/index.html.twig', [
@@ -97,6 +98,10 @@ class QuackController extends AbstractController
      * @return Response
      */
     public function edit(Quack $quack, Request $request){
+
+//        $tag = new Tags();
+//        $quack->addMyTag($tag);
+
         $form = $this->createForm(QuackType::class, $quack);
         $form->handleRequest($request);
 

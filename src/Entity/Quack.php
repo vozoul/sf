@@ -5,11 +5,14 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Tests\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\QuackRepository")
+ * @Vich\Uploadable()
  * @uniqueEntity("title")
  */
 class Quack
@@ -22,14 +25,21 @@ class Quack
     private $id;
 
     /**
+     * @var string|null
+     * @ORM\Column(type="string", length=255)
+     */
+    private $filename;
+
+    /**
+     * @var File|null
+     * @Vich\UploadableField(mapping="quack_image", fileNameProperty="filename")
+     */
+    private $imageFile;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $content;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $picture;
 
     /**
      * @ORM\Column(type="datetime")
@@ -52,7 +62,7 @@ class Quack
     private $title;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tags", mappedBy="quacks")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tags", inversedBy="quacks")
      */
     private $my_tags;
 
@@ -74,18 +84,6 @@ class Quack
     public function setContent(string $content): self
     {
         $this->content = $content;
-
-        return $this;
-    }
-
-    public function getPicture(): ?string
-    {
-        return $this->picture;
-    }
-
-    public function setPicture(?string $picture): self
-    {
-        $this->picture = $picture;
 
         return $this;
     }
@@ -165,4 +163,43 @@ class Quack
 
         return $this;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getFilename(): ?string
+    {
+        return $this->filename;
+    }
+
+    /**
+     * @param string|null $filename
+     * @return Quack
+     */
+    public function setFilename(?string $filename): Quack
+    {
+        $this->filename = $filename;
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param File|null $imageFile
+     * @return Quack
+     */
+    public function setImageFile(?File $imageFile): Quack
+    {
+        $this->imageFile = $imageFile;
+        return $this;
+    }
+
+
+
 }

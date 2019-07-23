@@ -3,7 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Quack;
+use App\Entity\Tags;
 use http\Client\Curl\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -16,12 +18,18 @@ class QuackType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('content')
-            ->add('picture', FileType::class, [
+            ->add('imageFile', FileType::class, [
                 'required' => false,
-                'label' => 'Picture'
             ])
+            ->add('content')
             ->add('author', HiddenType::class)
+            ->add('myTags', EntityType::class, [
+                'required' => false,
+                'label' => 'Tags',
+                'class' => Tags::class,
+                'choice_label' => 'name',
+                'multiple' => true
+            ])
         ;
     }
 

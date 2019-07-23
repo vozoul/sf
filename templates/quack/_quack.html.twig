@@ -10,11 +10,13 @@
         <h4>{{ quack.title }}</h4>
     </div>
     <div class="card-body">
-        <img class="card-img-top" src="{{ quack.picture }}" alt="picture">
+        {{ dump(quack.filename) }}
+        <img class="card-img-top" src="{{ vich_uploader_asset(quack, 'imageFile') }}" alt="picture">
         <p class="card-text">{{ quack.content | nl2br }}</p>
     </div>
-    <div class="card-footer blockquote-footer">
-        <span class="text-capitalize">{{ quack.author }}</span>
-        <span class="float-right">Since : {{ quack.createAt | date("d-m-Y") }} at {{ quack.createAt | date("H:i") }}</span>
+    <div class="card-footer d-flex justify-content-between">
+        <p class="text-capitalize blockquote-footer">Éditer par: {{ quack.author }}</p>
+        <p class=""></p>
+        <p class="blockquote-footer">Le : {{ quack.createAt | date("d-m-Y") }} à {{ quack.createAt | date("H:i") }}</p>
     </div>
 </div>
