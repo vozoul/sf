@@ -25,21 +25,21 @@
 
                 <ul class="navbar-nav">
 
-{#                    if not connected#}
+{#                    if connected#}
                     {% if app.user %}
                         <li class="nav-item">
-                            <a class="nav-link"><i class="fas fa-user-circle"></i> Profile</a>
+                            <a class="nav-link text-capitalize" href="#"><i class="fas fa-user-circle"></i> {{ app.user.duckname }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link"><i class="fas fa-sign-out-alt"></i> Sign-Out</a>
+                            <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i> Sign-Out</a>
                         </li>
-{#                    if connected#}
+{#                    if not connected#}
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link"><i class="fas fa-user-plus"></i> Sign-Up</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link"><i class="fas fa-sign-in-alt"></i> Sign-In</a>
+                        <li class="nav-item {% if in_cours is defined and in_cours == 'login' %}active{% endif %}">
+                            <a class="nav-link" href="/login"><i class="fas fa-sign-in-alt"></i> Sign-In</a>
                         </li>
                     {% endif %}
                 </ul>

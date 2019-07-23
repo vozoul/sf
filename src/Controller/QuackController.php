@@ -40,12 +40,6 @@ class QuackController extends AbstractController
      */
     public function index():Response
     {
-
-//        $quack = new Quack();
-//        $quack->setTitle('DuckApp show you in the past and in the futur')
-//            ->setContent('Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi cumque ipsam placeat! Adipisci dolore doloremque eveniet iusto libero nesciunt sequi! Animi dolore exercitationem ipsa magni molestiae placeat reprehenderit ullam voluptatem.');
-//        $this->manager->persist($quack);
-//        $this->manager->flush();
         $quacks = $this->repository->findAllDesc();
         return $this->render('quack/index.html.twig', [
             'in_cours' => 'quacks',
