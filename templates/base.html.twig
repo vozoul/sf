@@ -21,10 +21,13 @@
                     <li class="nav-item {% if in_cours is defined and in_cours == 'quacks' %}active{% endif %}">
                         <a class="nav-link" href="{{ path('quack.index') }}"><i class="fas fa-comment-alt"></i> Quacks</a>
                     </li>
+                    <li class="nav-item {% if in_cours is defined and in_cours == 'contact' %}active{% endif %}">
+                        <a class="nav-link" href="{{ path('quack.index') }}"><i class="fas fa-paper-plane"></i> Contact</a>
+                    </li>
                 </ul>
 
                 {% if in_cours is defined and in_cours != 'home' %}
-                <div class="input-group md-form form-sm form-2 w-50 pl-0">
+                <div class="input-group md-form form-sm form-2 w-25 pl-0">
                     <input class="form-control my-0 py-1 amber-border" type="text" placeholder="Search" aria-label="Search">
                     <div class="input-group-append">
                         <span class="input-group-text amber lighten-3" id="basic-text1"><!--<a href="#">--><i class="fas fa-search" aria-hidden="true"></i><!--</a>--></span>
