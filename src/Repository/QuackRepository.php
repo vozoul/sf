@@ -52,7 +52,7 @@ class QuackRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('q')
             ->orderBy('q.id', 'DESC')
-            ->setMaxResults(4)
+            ->setMaxResults(6)
             ->getQuery()
             ->getResult();
     }

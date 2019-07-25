@@ -5,9 +5,9 @@ namespace App\Controller;
 
 
 use App\Entity\Quack;
-use App\Entity\Tags;
 use App\Form\QuackType;
 use App\Repository\QuackRepository;
+use App\Service\FileUploader;
 use Doctrine\Common\Persistence\ObjectManager;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,7 +38,8 @@ class QuackController extends AbstractController
 
     /**
      * @Route("/quacks/", name="quack.index")
-     * @param PaginationInterface $paginator
+     * @param PaginatorInterface $paginator
+     * @param Request $request
      * @return Response
      */
     public function index(PaginatorInterface $paginator, Request $request):Response
@@ -58,14 +59,21 @@ class QuackController extends AbstractController
     /**
      * @Route("/quack/new", name="quack.new")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @param FileUploader $fileUploader
+     * @return RedirectResponse|Response
+     * @throws \Exception
      */
-    public function new(Request $request){
+    public function new(Request $request, FileUploader $fileUploader){
         $quack = new Quack();
         $form = $this->createForm(QuackType::class, $quack);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            $image = $form['imageFile']->getData();
+            if($image){
+                $imageFileName = $fileUploader->upload($image);
+                $quack->setImageFilename($imageFileName);
+            }
             $this->manager->persist($quack);
             $this->manager->flush();
             $this->addFlash('success', 'Ajouté avec Success');
@@ -74,6 +82,7 @@ class QuackController extends AbstractController
 
         return $this->render('quack/new.html.twig', [
             'in_cours' => 'quacks',
+            'val' => 'index',
             'quack' => $quack,
             'form' => $form->createView()
         ]);
@@ -87,6 +96,7 @@ class QuackController extends AbstractController
     {
         return $this->render('quack/show.html.twig', [
             'in_cours' => 'quacks',
+            'val' => 'show',
             'quack' => $quack
         ]);
     }
@@ -95,17 +105,21 @@ class QuackController extends AbstractController
      * @Route("/quack/edit/{id}", name="quack.edit", methods="GET|POST")
      * @param Quack $quack
      * @param Request $request
+     * @param FileUploader $fileUploader
      * @return Response
+     * @throws \Exception
      */
-    public function edit(Quack $quack, Request $request){
-
-//        $tag = new Tags();
-//        $quack->addMyTag($tag);
+    public function edit(Quack $quack, Request $request, FileUploader $fileUploader){
 
         $form = $this->createForm(QuackType::class, $quack);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            $image = $form['imageFile']->getData();
+            if($image){
+                $imageFileName = $fileUploader->upload($image);
+                $quack->setImageFilename($imageFileName);
+            }
             $this->manager->flush();
             $this->addFlash('success', 'Modifié avec Success');
             return $this->redirectToRoute('quack.index');

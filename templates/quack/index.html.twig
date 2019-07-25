@@ -2,10 +2,7 @@
 {% block title 'Les coincoins du coin' %}
 {% block body %}
     <div class="container mt-3">
-        <span class="float-right">
-            <a href="{{ app.request.headers.get('referer') }}" class="btn btn-primary"><i class="fas fa-arrow-circle-left"></i> Back</a>
-            <a href="{{ path('quack.new') }}" class="btn btn-primary"><i class="fas fa-comment-alt"></i> New</a>
-        </span>
+        {% include 'quack/_nav_quack.html.twig' %}
         <h1>Quacks</h1>
         {% for flash in app.flashes('success') %}
             <div class="alert alert-success">

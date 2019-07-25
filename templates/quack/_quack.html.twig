@@ -6,13 +6,25 @@
             <button class="btn btn-danger"><i class="fas fa-times-circle"></i></button>
         </form>
         <a href="{{ path('quack.edit', {id: quack.id}) }}" class="btn btn-warning mx-1 float-right"><i class="far fa-edit"></i></a>
-        <a href="{{ path('quack.show', {id: quack.id}) }}" class="btn btn-info float-right"><i class="far fa-eye"></i></a>
-        <h4>{{ quack.title }}</h4>
+        {% if val is defined and val is same as('show') %}
+        {% else %}
+            <a href="{{ path('quack.show', {id: quack.id}) }}" class="btn btn-info float-right"><i class="far fa-eye"></i></a>
+            <h3>{{ quack.title }}</h3>
+        {% endif %}
     </div>
-    <div class="card-body">
-        {{ dump(quack.filename) }}
-        <img class="card-img-top" src="{{ vich_uploader_asset(quack, 'imageFile') }}" alt="picture">
-        <p class="card-text">{{ quack.content | nl2br }}</p>
+    <div class="row no-gutters">
+        <div class="col-md-2">
+            {% if quack.imageFilename %}
+                <img class="card-img-top thumbnail" src="{{ asset('images/quacks/' ~ quack.imageFilename) }}" alt="picture">
+            {% else %}
+                <img class="card-img-top thumbnail" src="{{ asset('/images/pictures/empty_quack.jpg') }}" alt="picture">
+            {% endif %}
+        </div>
+        <div class="col-md-10">
+            <div class="card-body">
+                <p class="card-text">{{ quack.content | nl2br }}</p>
+            </div>
+        </div>
     </div>
     <div class="card-footer d-flex justify-content-between">
         <p class="text-capitalize blockquote-footer">Éditer par: {{ quack.author }}</p>

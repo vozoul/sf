@@ -4,13 +4,13 @@ namespace App\Form;
 
 use App\Entity\Quack;
 use App\Entity\Tags;
-use http\Client\Curl\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class QuackType extends AbstractType
 {
@@ -19,7 +19,18 @@ class QuackType extends AbstractType
         $builder
             ->add('title')
             ->add('imageFile', FileType::class, [
+                'label' => 'Picture',
                 'required' => false,
+                'mapped' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '2048k',
+                        'mimeTypes' => [
+                            'image/jpeg'
+                        ],
+                        'mimeTypesMessage' => 'Insert a valid Picture documents'
+                    ])
+                ],
             ])
             ->add('content')
             ->add('author', HiddenType::class)

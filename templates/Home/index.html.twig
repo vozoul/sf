@@ -12,16 +12,21 @@
     <div class="bg-secondary text-light py-3 shadow">
         <div class="container">
             <h2>Last Quacks</h2>
-            <div class="flex row align-items-center">
+            <div class="flex row align-items-start">
                 {% for quack in quacks %}
-                    <div class="col-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    <a href="{{ path('quack.show', {id: quack.id}) }}">{{ quack.title }}</a>
-                                </h5>
+                    <div class="col-2">
+                        <a href="{{ path('quack.show', {id: quack.id}) }}">
+                            <div class="card">
+                                {% if quack.imageFilename %}
+                                    <img class="card-img-top thumbnail" src="{{ asset('images/quacks/' ~ quack.imageFilename) }}" alt="picture">
+                                {% else %}
+                                    <img class="card-img-top thumbnail" src="{{ asset('/images/pictures/empty_quack.jpg') }}" alt="picture">
+                                {% endif %}
+                                <div class="card-img-overlay d-flex align-items-center w-100 bg-light" style="opacity: 0.7;">
+                                    <h4>{{ quack.title }}</h4>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 {% endfor %}
             </div>

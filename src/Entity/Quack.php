@@ -6,13 +6,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Tests\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+//use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\QuackRepository")
- * @Vich\Uploadable()
+ * Vich\Uploadable()
  * @uniqueEntity("title")
  */
 class Quack
@@ -28,11 +29,14 @@ class Quack
      * @var string|null
      * @ORM\Column(type="string", length=255)
      */
-    private $filename;
+    private $imageFilename;
 
     /**
      * @var File|null
-     * @Vich\UploadableField(mapping="quack_image", fileNameProperty="filename")
+     * Vich\UploadableField(mapping="quack_image", fileNameProperty="filename")
+     * Assert\Image(
+     *     mimeType="image/jpeg"
+     * )
      */
     private $imageFile;
 
@@ -65,6 +69,11 @@ class Quack
      * @ORM\ManyToMany(targetEntity="App\Entity\Tags", inversedBy="quacks")
      */
     private $my_tags;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updated_at;
 
     public function __construct()
     {
@@ -167,36 +176,48 @@ class Quack
     /**
      * @return string|null
      */
-    public function getFilename(): ?string
+    public function getImageFilename(): ?string
     {
-        return $this->filename;
+        return $this->imageFilename;
     }
 
     /**
-     * @param string|null $filename
+     * @param string|null $imageFilename
      * @return Quack
+     * @throws \Exception
      */
-    public function setFilename(?string $filename): Quack
+    public function setImageFilename(?string $imageFilename): Quack
     {
-        $this->filename = $filename;
+        $this->imageFilename = $imageFilename;
+        if($this->imageFilename instanceof UploadedFile){
+            $this->updated_at = new \DateTime('now');
+        }
         return $this;
-    }
-
-    /**
-     * @return File|null
-     */
-    public function getImageFile(): ?File
-    {
-        return $this->imageFile;
     }
 
     /**
      * @param File|null $imageFile
      * @return Quack
+     * @throws \Exception
      */
     public function setImageFile(?File $imageFile): Quack
     {
         $this->imageFile = $imageFile;
+        if($this->imageFile instanceof UploadedFile){
+            $this->updated_at = new \DateTime('now');
+        }
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
+
         return $this;
     }
 

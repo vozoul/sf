@@ -23,6 +23,7 @@ class HomeController extends AbstractController
     {
         $quacks = $repository->findLatest();
         return $this->render('home/index.html.twig', [
+            'in_cours' => 'home',
             'quacks' => $quacks
         ]);
     }
