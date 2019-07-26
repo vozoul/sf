@@ -4,10 +4,15 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Serializable;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DuckRepository")
+ * @UniqueEntity(fields={"duckname"}, message="There is already an account with this duckname")
  */
 class Duck implements UserInterface, Serializable
 {
@@ -42,6 +47,16 @@ class Duck implements UserInterface, Serializable
      * @ORM\Column(type="string", length=255)
      */
     private $password;
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $roles = [];
+
+    public function __construct()
+    {
+        $this->roles = ['ROLE_USER'];
+    }
 
     public function getId(): ?int
     {
@@ -108,6 +123,13 @@ class Duck implements UserInterface, Serializable
         return $this;
     }
 
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+
     /**
      * Returns the roles granted to the user.
      *
@@ -120,12 +142,14 @@ class Duck implements UserInterface, Serializable
      * and populated in any number of different ways when the user object
      * is created.
      *
-     * @return (Role|string)[] The user roles
+     * @return array (Role|string)[] The user roles
      */
     public function getRoles()
     {
-        // TODO: Implement getRoles() method.
-        return ['ROLE_ADMIN'];
+        $roles = $this->roles??[];
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+        return array_unique($roles);
     }
 
     /**

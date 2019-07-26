@@ -21,9 +21,9 @@
                     <li class="nav-item {% if in_cours is defined and in_cours == 'quacks' %}active{% endif %}">
                         <a class="nav-link" href="{{ path('quack.index') }}"><i class="fas fa-comment-alt"></i> Quacks</a>
                     </li>
-                    <li class="nav-item {% if in_cours is defined and in_cours == 'contact' %}active{% endif %}">
-                        <a class="nav-link" href="{{ path('quack.index') }}"><i class="fas fa-paper-plane"></i> Contact</a>
-                    </li>
+{#                    <li class="nav-item {% if in_cours is defined and in_cours == 'contact' %}active{% endif %}">#}
+{#                        <a class="nav-link" href="{{ path('quack.index') }}"><i class="fas fa-paper-plane"></i> Contact</a>#}
+{#                    </li>#}
                 </ul>
 
                 {% if in_cours is defined and in_cours != 'home' %}
@@ -39,8 +39,13 @@
 
 {#                    if connected#}
                     {% if app.user %}
+                        {% if is_granted('ROLE_ADMIN') %}
                         <li class="nav-item">
-                            <a class="nav-link text-capitalize" href="#"><i class="fas fa-user-circle"></i> {{ app.user.duckname }}</a>
+                            <a class="nav-link text-capitalize" href="{{ path('admin_home') }}"><i class="fas fa-user-circle"></i> Administration</a>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link text-capitalize" href="{{ path('duck_show', {'id': app.user.id}) }}"><i class="fas fa-user-circle"></i> {{ app.user.duckname }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i> Sign-Out</a>
@@ -48,7 +53,7 @@
 {#                    if not connected#}
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link"><i class="fas fa-user-plus"></i> Sign-Up</a>
+                            <a class="nav-link" href="/register"><i class="fas fa-user-plus"></i> Sign-Up</a>
                         </li>
                         <li class="nav-item {% if in_cours is defined and in_cours == 'login' %}active{% endif %}">
                             <a class="nav-link" href="/login"><i class="fas fa-sign-in-alt"></i> Sign-In</a>

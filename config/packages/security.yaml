@@ -1,12 +1,6 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-#        in_memory:
- #           memory:
-  #              users:
-   #                 demo:
-    #                    password: demo
-     #                   roles: ROLE_ADMIN
         from_database:
             entity:
                 class: App\Entity\Duck
@@ -22,6 +16,7 @@ security:
                 path: /logout
                 target: /
 
+
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
@@ -31,12 +26,16 @@ security:
             #http_basic: true
             form_login:
                 check_path:  login
+            guard:
+                authenticators:
+                    - App\Security\AuthAuthenticator
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/edit, roles: ROLE_USER}
     encoders:
         App\Entity\Duck:
             algorithm: auto

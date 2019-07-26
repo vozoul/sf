@@ -1,25 +1,39 @@
 {% extends 'base.html.twig' %}
 {% block title 'Les coincoins du coin' %}
 {% block body %}
-    <div class="container mt-3">
-        {% include 'quack/_nav_quack.html.twig' %}
-        <h1>Quacks</h1>
-        {% for flash in app.flashes('success') %}
-            <div class="alert alert-success">
-                {{ flash }}
+    <div class="container mt-3 d-flex">
+        <div class="col-sm-2">
+            <h1>&nbsp;</h1>
+            <div class="card">
+                <div class="card-header bg-success text-light">
+                    <h6 class="card-title">Mine Quacks</h6>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Coin Coin</p>
+                </div>
             </div>
-        {% endfor %}
-        {% for flash in app.flashes('danger') %}
-            <div class="alert alert-danger">
-                {{ flash }}
-            </div>
-        {% endfor %}
-        {% for quack in quacks %}
-            {% include 'quack/_quack.html.twig' %}
-        {% endfor %}
-        <div class="pagination justify-content-center mt-5">
-            {{ knp_pagination_render(quacks) }}
         </div>
+        <div class="col-sm-8">
+            {% include 'quack/_nav_quack.html.twig' %}
+            <h1>Quacks</h1>
+            {% for flash in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ flash }}
+                </div>
+            {% endfor %}
+            {% for flash in app.flashes('danger') %}
+                <div class="alert alert-danger">
+                    {{ flash }}
+                </div>
+            {% endfor %}
+            {% for quack in quacks %}
+                {% include 'quack/_quack.html.twig' %}
+            {% endfor %}
+            <div class="pagination justify-content-center mt-5">
+                {{ knp_pagination_render(quacks) }}
+            </div>
+        </div>
+        <div class="col-sm-2"></div>
     </div>
 {% endblock %}
 

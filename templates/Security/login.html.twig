@@ -1,38 +1,40 @@
 {% extends 'base.html.twig' %}
 
-{% block title 'Connection' %}
+{% block title %}Log in!{% endblock %}
 
 {% block body %}
-    <div class="container mt-5">
+<form method="post">
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
 
-        {% if error %}
-            <div class="alert alert-danger">
-                {{ error.messageKey | trans(error.messagedata, 'security') }}
-            </div>
-        {% endif %}
+    {% if app.user %}
+        <div class="checkbox mb-3">You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+    {% endif %}
 
-        <form action="{{ path('login') }}" method="post">
-{#            <div class="form-group">#}
-{#                <label for="firstname">First Name</label>#}
-{#                <input type="text" class="form-control" id="firstname" name="_firstname">#}
-{#            </div>#}
-{#            <div class="form-group">#}
-{#                <label for="lastname">Last Name</label>#}
-{#                <input type="text" class="form-control" id="lastname" name="_lastname">#}
-{#            </div>#}
-            <div class="form-group">
-                <label for="duckname">Duck Name</label>
-                <input type="text" class="form-control" id="duckname" name="_username" value="{{ last_username }}">
-            </div>
-{#            <div class="form-group">#}
-{#                <label for="email">E-Mail</label>#}
-{#                <input type="text" class="form-control" id="email" name="_email">#}
-{#            </div>#}
-            <div class="form-group">
-                <label for="password">password</label>
-                <input type="password" class="form-control" id="password" name="_password">
-            </div>
-            <button type="submit" class="btn btn-primary float-right">Se connecter</button>
-        </form>
-    </div>
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <label for="inputDuckname" class="sr-only">Duckname</label>
+    <input type="text" value="{{ last_username }}" name="duckname" id="inputDuckname" class="form-control" placeholder="Duckname" required autofocus>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+
+    <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
+
+    {#
+        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+        See https://symfony.com/doc/current/security/remember_me.html
+
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" name="_remember_me"> Remember me
+            </label>
+        </div>
+    #}
+
+    <button class="btn btn-lg btn-primary" type="submit">
+        Sign in
+    </button>
+</form>
 {% endblock %}

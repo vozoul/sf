@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190725095240 extends AbstractMigration
+final class Version20190726094822 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,7 +22,7 @@ final class Version20190725095240 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE duck (id INT AUTO_INCREMENT NOT NULL, firstname VARCHAR(90) NOT NULL, lastname VARCHAR(90) NOT NULL, duckname VARCHAR(90) NOT NULL, email VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE duck (id INT AUTO_INCREMENT NOT NULL, firstname VARCHAR(90) NOT NULL, lastname VARCHAR(90) NOT NULL, duckname VARCHAR(90) NOT NULL, email VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, roles JSON DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE quack (id INT AUTO_INCREMENT NOT NULL, image_filename VARCHAR(255) DEFAULT NULL, content VARCHAR(255) NOT NULL, create_at DATETIME NOT NULL, author VARCHAR(90) DEFAULT NULL, comments LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:array)\', title VARCHAR(255) DEFAULT NULL, updated_at DATETIME DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE quack_tags (quack_id INT NOT NULL, tags_id INT NOT NULL, INDEX IDX_70A21AAED3950CA9 (quack_id), INDEX IDX_70A21AAE8D7B4FB4 (tags_id), PRIMARY KEY(quack_id, tags_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE tags (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
